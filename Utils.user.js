@@ -122,20 +122,20 @@ class Settings extends Container {
  */
 class Tools {
   /**
-   * Simple object check.
+   * Simple object check
    * @param item
    * @returns {boolean}
    */
-  static function isObject(item) {
+  static isObject(item) {
     return (item && typeof item === 'object' && !Array.isArray(item));
   }
 
   /**
-   * Deep merge two objects.
+   * Deep merge objects
    * @param target
    * @param ...sources
    */
-  static function mergeDeep(target, ...sources) {
+  static mergeDeep(target, ...sources) {
     if (!sources.length) return target;
     const source = sources.shift();
 
