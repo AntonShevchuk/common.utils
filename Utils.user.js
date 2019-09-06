@@ -103,7 +103,7 @@ class Settings extends Container {
     let settings = localStorage.getItem(this.uid);
     if (settings) {
       settings = JSON.parse(settings);
-      this.container = Object.assign(this.default, settings);
+      this.container = Tools.mergeDeep({}, this.default, settings);
     } else {
       this.container = this.default;
     }
@@ -114,5 +114,41 @@ class Settings extends Container {
    */
   save() {
     localStorage.setItem(this.uid, JSON.stringify(this.container));
+  }
+}
+
+/**
+ * Static functions
+ */
+class Tools {
+  /**
+   * Simple object check.
+   * @param item
+   * @returns {boolean}
+   */
+  static function isObject(item) {
+    return (item && typeof item === 'object' && !Array.isArray(item));
+  }
+
+  /**
+   * Deep merge two objects.
+   * @param target
+   * @param ...sources
+   */
+  static function mergeDeep(target, ...sources) {
+    if (!sources.length) return target;
+    const source = sources.shift();
+
+    if (Tools.isObject(target) && Tools.isObject(source)) {
+      for (const key in source) {
+        if (Tools.isObject(source[key])) {
+          if (!target[key]) Object.assign(target, { [key]: {} });
+          Tools.mergeDeep(target[key], source[key]);
+        } else {
+          Object.assign(target, { [key]: source[key] });
+        }
+      }
+    }
+    return Tools.mergeDeep(target, ...sources);
   }
 }
