@@ -3,7 +3,7 @@
 // @description  Classes for your scripts
 // @author       Anton Shevchuk
 // @license      MIT License
-// @version      0.0.2
+// @version      0.0.3
 // @match        *://*/*
 // @grant        none
 // @namespace    https://greasyfork.org/users/227648
@@ -150,5 +150,20 @@ class Tools {
       }
     }
     return Tools.mergeDeep(target, ...sources);
+  }
+
+  /**
+   * Copy to clipboard
+   * @param text
+   */
+  static copyToClipboard(text) {
+    // use search input for copy text to clipboard
+    let input = document.querySelector('input.search-query');
+    let old = input.value;
+    input.value = text;
+    input.select();
+    input.setSelectionRange(0, 99999);
+    document.execCommand("copy");
+    input.value = old;
   }
 }
