@@ -3,7 +3,7 @@
 // @description  Classes for your scripts
 // @author       Anton Shevchuk
 // @license      MIT License
-// @version      0.0.3
+// @version      0.0.4
 // @match        *://*/*
 // @grant        none
 // @namespace    https://greasyfork.org/users/227648
@@ -79,7 +79,7 @@ class Container {
 /**
  * Simple cache object with getters and setters
  */
-class Cache extends Container {
+class SimpleCache extends Container {
   /**
    * @param {String} key
    * @param {*} value
