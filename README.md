@@ -10,7 +10,7 @@
 ## Cache
 
 ```javascript
-let CacheInstance = new Cache();
+let CacheInstance = new SimpleCache();
 let result = null;
 if (CacheInstance.has('key')) {
   result = CacheInstance.get('key');
