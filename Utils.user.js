@@ -3,9 +3,10 @@
 // @description  Classes for your scripts
 // @author       Anton Shevchuk
 // @license      MIT License
-// @version      0.0.4
+// @version      0.0.5
 // @match        *://*/*
-// @grant        none
+// @grant        GM.setValue
+// @grant        GM.getValue
 // @namespace    https://greasyfork.org/users/227648
 // ==/UserScript==
 
@@ -99,10 +100,9 @@ class Settings extends Container {
     this.default = def;
     this.load();
   }
-  load() {
-    let settings = localStorage.getItem(this.uid);
+  async load() {
+    let settings = JSON.parse(await GM.getValue(this.uid));
     if (settings) {
-      settings = JSON.parse(settings);
       this.container = Tools.mergeDeep({}, this.default, settings);
     } else {
       this.container = this.default;
@@ -112,8 +112,8 @@ class Settings extends Container {
    * With jQuery:
    *   $(window).on('beforeunload', () => SettingsInstance.save() );
    */
-  save() {
-    localStorage.setItem(this.uid, JSON.stringify(this.container));
+  async save() {
+    await GM.setValue(this.uid, JSON.stringify(this.container));
   }
 }
 
@@ -123,8 +123,8 @@ class Settings extends Container {
 class Tools {
   /**
    * Simple object check
-   * @param item
-   * @returns {boolean}
+   * @param {Object} item
+   * @returns {Boolean}
    */
   static isObject(item) {
     return (item && typeof item === 'object' && !Array.isArray(item));
@@ -132,7 +132,7 @@ class Tools {
 
   /**
    * Deep merge objects
-   * @param target
+   * @param {Object} target
    * @param {Array} sources
    */
   static mergeDeep(target, ...sources) {
@@ -150,31 +150,5 @@ class Tools {
       }
     }
     return Tools.mergeDeep(target, ...sources);
-  }
-
-  /**
-   * Copy to clipboard
-   *
-   * @param {String} text
-   * @link https://hackernoon.com/copying-text-to-clipboard-with-javascript-df4d4988697f
-   */
-  static copyToClipboard(text) {
-    const el = document.createElement('textarea');  // Create a <textarea> element
-    el.value = text;                                // Set its value to the string that you want copied
-    el.setAttribute('readonly', '');                // Make it readonly to be tamper-proof
-    el.style.position = 'absolute';
-    el.style.left = '-9999px';                      // Move outside the screen to make it invisible
-    document.body.appendChild(el);                  // Append the <textarea> element to the HTML document
-    const selected =
-      document.getSelection().rangeCount > 0        // Check if there is any content selected previously
-        ? document.getSelection().getRangeAt(0)     // Store selection if found
-        : false;                                    // Mark as false to know no selection existed before
-    el.select();                                    // Select the <textarea> content
-    document.execCommand('copy');                   // Copy - only works as a result of a user action (e.g. click events)
-    document.body.removeChild(el);                  // Remove the <textarea> element
-    if (selected) {                                 // If a selection existed before copying
-      document.getSelection().removeAllRanges();    // Unselect everything on the HTML document
-      document.getSelection().addRange(selected);   // Restore the original selection
-    }
   }
 }
