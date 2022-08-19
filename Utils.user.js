@@ -3,10 +3,9 @@
 // @description  Classes for your scripts
 // @author       Anton Shevchuk
 // @license      MIT License
-// @version      0.0.5
+// @version      0.0.6
 // @match        *://*/*
-// @grant        GM.setValue
-// @grant        GM.getValue
+// @grant        none
 // @namespace    https://greasyfork.org/users/227648
 // ==/UserScript==
 
@@ -100,9 +99,10 @@ class Settings extends Container {
     this.default = def;
     this.load();
   }
-  async load() {
-    let settings = JSON.parse(await GM.getValue(this.uid));
+  load() {
+    let settings = localStorage.getItem(this.uid);
     if (settings) {
+      settings = JSON.parse(settings);
       this.container = Tools.mergeDeep({}, this.default, settings);
     } else {
       this.container = this.default;
@@ -112,8 +112,8 @@ class Settings extends Container {
    * With jQuery:
    *   $(window).on('beforeunload', () => SettingsInstance.save() );
    */
-  async save() {
-    await GM.setValue(this.uid, JSON.stringify(this.container));
+  save() {
+    localStorage.setItem(this.uid, JSON.stringify(this.container));
   }
 }
 
