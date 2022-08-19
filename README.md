@@ -35,14 +35,6 @@ With jQuery:
 $(window).on('beforeunload', () => SettingsInstance.save() );
 ```
 
-## Tools
-
-### Copy to clipboard
-
-```javascript
-Tools.copyToClipboard('some text')
-```
-
 ## Links
 Author homepage: http://anton.shevchuk.name/  
 Script homepage: https://github.com/AntonShevchuk/common.utils  
