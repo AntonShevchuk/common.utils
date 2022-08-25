@@ -3,7 +3,7 @@
 // @description  Classes for your scripts
 // @author       Anton Shevchuk
 // @license      MIT License
-// @version      0.0.6
+// @version      0.0.7
 // @match        *://*/*
 // @grant        none
 // @namespace    https://greasyfork.org/users/227648
@@ -39,6 +39,9 @@ class Container {
    * @return {null|*}
    */
   get(...keys) {
+    if (keys.length === 0) {
+      return this.container
+    }
     if (this.has(...keys)) {
       return this._get(this.container, ...keys);
     } else {
