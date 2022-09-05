@@ -35,7 +35,7 @@ class Container {
     }
   }
   /**
-   * @param {String[]} keys
+   * @param {String} keys
    * @return {null|*}
    */
   get(...keys) {
@@ -60,7 +60,7 @@ class Container {
     }
   }
   /**
-   * @param {String[]} keys
+   * @param {String} keys
    * @return {boolean}
    */
   has(...keys) {
