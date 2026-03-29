@@ -21,7 +21,7 @@ export class Settings extends Container {
       let parsed = JSON.parse(settings);
       this.container = Tools.mergeDeep({}, this.default, parsed);
     } else {
-      this.container = this.default;
+      this.container = Tools.mergeDeep({}, this.default);
     }
   }
 

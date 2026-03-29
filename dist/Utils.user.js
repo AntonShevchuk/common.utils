@@ -13,25 +13,25 @@
     'use strict';
 
     /**
-     * Object with wrapper with getters and setters
+     * Object with a wrapper with getters and setters
      */
     class Container {
         constructor() {
             this.container = {};
         }
         set(keys, value) {
-            this._set(this.container, keys, value);
+            this._set(this.container, keys, 0, value);
         }
-        _set(elements, keys, value) {
-            let key = keys.shift();
+        _set(elements, keys, index, value) {
+            let key = keys[index];
             if (typeof elements[key] === 'undefined') {
                 elements[key] = {};
             }
-            if (keys.length === 0) {
+            if (index === keys.length - 1) {
                 elements[key] = value;
             }
             else {
-                this._set(elements[key], keys, value);
+                this._set(elements[key], keys, index + 1, value);
             }
         }
         get(...keys) {
@@ -39,37 +39,37 @@
                 return this.container;
             }
             if (this.has(...keys)) {
-                return this._get(this.container, ...keys);
+                return this._get(this.container, keys, 0);
             }
             else {
                 return null;
             }
         }
-        _get(elements, ...keys) {
-            let key = keys.shift();
+        _get(elements, keys, index) {
+            let key = keys[index];
             if (typeof elements[key] === 'undefined') {
                 return null;
             }
-            if (keys.length === 0) {
+            if (index === keys.length - 1) {
                 return elements[key];
             }
             else {
-                return this._get(elements[key], ...keys);
+                return this._get(elements[key], keys, index + 1);
             }
         }
         has(...keys) {
-            return this._has(this.container, ...keys);
+            return this._has(this.container, keys, 0);
         }
-        _has(elements, ...keys) {
-            let key = keys.shift();
+        _has(elements, keys, index) {
+            let key = keys[index];
             if (typeof elements[key] === 'undefined') {
                 return false;
             }
-            if (keys.length === 0) {
+            if (index === keys.length - 1) {
                 return true;
             }
             else {
-                return this._has(elements[key], ...keys);
+                return this._has(elements[key], keys, index + 1);
             }
         }
     }
@@ -78,7 +78,6 @@
      * Simple cache object with getters and setters
      */
     class SimpleCache extends Container {
-        // @ts-ignore - intentionally changes signature from string[] to string
         set(key, value) {
             super.set([key], value);
         }
@@ -131,7 +130,7 @@
                 this.container = Tools.mergeDeep({}, this.default, parsed);
             }
             else {
-                this.container = this.default;
+                this.container = Tools.mergeDeep({}, this.default);
             }
         }
         /**
