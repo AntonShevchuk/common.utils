@@ -9,57 +9,30 @@ export class Container {
   }
 
   set(keys: string[], value: any): void {
-    this._set(this.container, keys, 0, value);
-  }
-
-  _set(elements: any, keys: string[], index: number, value: any): void {
-    let key = keys[index];
-    if (typeof elements[key] === 'undefined') {
-      elements[key] = {};
+    let target = this.container
+    for (let i = 0; i < keys.length - 1; i++) {
+      if (typeof target[keys[i]] === 'undefined') target[keys[i]] = {}
+      target = target[keys[i]]
     }
-    if (index === keys.length - 1) {
-      elements[key] = value;
-    } else {
-      this._set(elements[key], keys, index + 1, value);
-    }
+    target[keys[keys.length - 1]] = value
   }
 
   get(...keys: string[]): any {
-    if (keys.length === 0) {
-      return this.container
+    if (keys.length === 0) return this.container
+    let target = this.container
+    for (let i = 0; i < keys.length; i++) {
+      if (typeof target[keys[i]] === 'undefined') return null
+      target = target[keys[i]]
     }
-    if (this.has(...keys)) {
-      return this._get(this.container, keys, 0);
-    } else {
-      return null;
-    }
-  }
-
-  _get(elements: any, keys: string[], index: number): any {
-    let key = keys[index];
-    if (typeof elements[key] === 'undefined') {
-      return null;
-    }
-    if (index === keys.length - 1) {
-      return elements[key];
-    } else {
-      return this._get(elements[key], keys, index + 1);
-    }
+    return target
   }
 
   has(...keys: string[]): boolean {
-    return this._has(this.container, keys, 0);
-  }
-
-  _has(elements: any, keys: string[], index: number): boolean {
-    let key = keys[index];
-    if (typeof elements[key] === 'undefined') {
-      return false;
+    let target = this.container
+    for (let i = 0; i < keys.length; i++) {
+      if (typeof target[keys[i]] === 'undefined') return false
+      target = target[keys[i]]
     }
-    if (index === keys.length - 1) {
-      return true;
-    } else {
-      return this._has(elements[key], keys, index + 1);
-    }
+    return true
   }
 }

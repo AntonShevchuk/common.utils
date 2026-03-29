@@ -15,8 +15,9 @@ export class Tools {
 
     if (Tools.isObject(target) && Tools.isObject(source)) {
       for (const key in source) {
+        if (!source.hasOwnProperty(key)) continue;
         if (Tools.isObject(source[key])) {
-          if (!target[key]) Object.assign(target, { [key]: {} });
+          if (!Tools.isObject(target[key])) Object.assign(target, { [key]: {} });
           Tools.mergeDeep(target[key], source[key]);
         } else {
           Object.assign(target, { [key]: source[key] });
