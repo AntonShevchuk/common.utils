@@ -107,5 +107,9 @@ Tools.isObject(null)   // false
 ## Links
 
 Author homepage: https://anton.shevchuk.name/  
+Author pet projects: https://hohli.com/  
+Support author: https://donate.hohli.com/  
+
 Script homepage: https://github.com/AntonShevchuk/common.utils  
-GreasyFork: https://greasyfork.org/uk/scripts/389765-common-utils
+GreasyFork: https://greasyfork.org/uk/scripts/571719-common-utils  
+

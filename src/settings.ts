@@ -27,7 +27,7 @@ export class Settings extends Container {
 
   /**
    * With jQuery:
-   *   $(window).on('beforeunload', () => SettingsInstance.save() );
+   *   $(window).on('beforeunload', () => SettingsInstance.save());
    */
   save(): void {
     localStorage.setItem(this.uid, JSON.stringify(this.container));
