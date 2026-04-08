@@ -3,7 +3,7 @@
 // @description  Classes for your scripts
 // @author       Anton Shevchuk
 // @license      MIT License
-// @version      0.1.0
+// @version      0.2.0
 // @match        *://*/*
 // @grant        none
 // @namespace    https://greasyfork.org/users/227648
