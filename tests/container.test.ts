@@ -49,6 +49,29 @@ describe('Container', () => {
       expect(container.get('options', 'a')).toBe(10)
       expect(container.get('options', 'b')).toBe(2)
     })
+
+    // Rest-params style (consistent with get/has)
+    it('sets a single-level value with rest params', () => {
+      container.set('name', 'test')
+      expect(container.get('name')).toBe('test')
+    })
+
+    it('sets a nested value with rest params', () => {
+      container.set('options', 'theme', 'dark')
+      expect(container.get('options', 'theme')).toBe('dark')
+    })
+
+    it('sets a deeply nested value with rest params', () => {
+      container.set('a', 'b', 'c', 42)
+      expect(container.get('a', 'b', 'c')).toBe(42)
+    })
+
+    it('rest params and array style produce same result', () => {
+      container.set(['options', 'a'], 1)
+      container.set('options', 'b', 2)
+      expect(container.get('options', 'a')).toBe(1)
+      expect(container.get('options', 'b')).toBe(2)
+    })
   })
 
   describe('get', () => {

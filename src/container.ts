@@ -8,7 +8,20 @@ export class Container {
     this.container = {};
   }
 
-  set(keys: string[], value: any): void {
+  set(...args: any[]): void {
+    let keys: string[]
+    let value: any
+
+    if (Array.isArray(args[0])) {
+      // Old style: set(['options', 'theme'], 'dark')
+      keys = args[0]
+      value = args[1]
+    } else {
+      // New style: set('options', 'theme', 'dark')
+      value = args.pop()
+      keys = args
+    }
+
     let target = this.container
     for (let i = 0; i < keys.length - 1; i++) {
       if (typeof target[keys[i]] === 'undefined') target[keys[i]] = {}
