@@ -3,7 +3,7 @@
 // @description  Classes for your scripts
 // @author       Anton Shevchuk
 // @license      MIT License
-// @version      0.2.0
+// @version      0.3.0
 // @match        *://*/*
 // @grant        none
 // @namespace    https://greasyfork.org/users/227648
@@ -59,15 +59,6 @@
                 target = target[keys[i]];
             }
             return true;
-        }
-    }
-
-    /**
-     * Simple cache object with getters and setters
-     */
-    class SimpleCache extends Container {
-        set(key, value) {
-            super.set([key], value);
         }
     }
 
@@ -133,6 +124,6 @@
     }
 
     // Expose as globals (consumed via @require by other scripts)
-    Object.assign(window, { Container, SimpleCache, Settings, Tools });
+    Object.assign(window, { Container, Settings, Tools });
 
 })();
